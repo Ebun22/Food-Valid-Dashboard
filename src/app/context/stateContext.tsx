@@ -30,13 +30,12 @@ export default function StateProvider({ children }: any) {
     const [login, setLogin] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const [userInfo, setUserInfo] = useState(info);
+    const [showModal, setShowModal] = useState(false);
     const [token, setToken] = useState('');
     const [url, setUrl] = useState('https://nodejs-food-valid-production.up.railway.app')
 
     const error = useRef(null)
     const router = useRouter()
-    const pathname = usePathname()
-    const searchParams = useSearchParams()!
 
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         setUser((prev) => ({
@@ -116,7 +115,6 @@ export default function StateProvider({ children }: any) {
         //To get user i.e admin details form localStorage
         const details = JSON.parse(localStorage.getItem("userInfo") as string)
         setUserInfo(details)
-        console.log(userInfo)
     }, [])
 
     useEffect(() => {
@@ -132,6 +130,8 @@ export default function StateProvider({ children }: any) {
         isAdmin,
         userInfo,
         setLogin,
+        showModal, 
+        setShowModal,
         handleLogin,
         handleSignUp,
     }

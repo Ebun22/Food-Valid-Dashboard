@@ -16,6 +16,8 @@ export interface Context{
     err: string,
     userInfo: UserInfo,
     isAdmin: boolean,
+    showModal: boolean, 
+    setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
     error: React.MutableRefObject<HTMLDivElement | null>,
     login: boolean, 
     setLogin:React.Dispatch<React.SetStateAction<boolean>>,

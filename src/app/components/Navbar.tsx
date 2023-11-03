@@ -9,17 +9,13 @@ import { BsBarChartLine } from 'react-icons/bs';
 import { AiOutlineSetting } from 'react-icons/ai';
 import { PiCallBell } from 'react-icons/pi';
 import { useSearchParams } from 'next/navigation';
-import { Button, Dropdown, Modal } from '../components/UI';
+import { Dropdown } from '../components/UI';
 
 
-const Home = () => {
+const Navbar = () => {
 
-    const { user, err, error,  userInfo, showModal, handleChange, handleSignUp, setShowModal}: Context = useStore();
+    const { user, err, error, handleChange, handleSignUp, userInfo }: Context = useStore();
     const { name, email, id } = userInfo;
-
-    const handleModal = () => {
-        setShowModal(true)
-    }
 
     return (
         <div className="flex flex-row w-full">
@@ -46,8 +42,8 @@ const Home = () => {
                         <span className="mr-4 mt-4 h-1 text-gray-500"><PiCallBell /></span>
                         <Dropdown
                             trigger='Order'
-                            menu={['Order ID', 'Order list']}
-                        />
+                            menu={['Order ID', 'Order list']} 
+                            />
                     </div>
                     <div className="flex flex-row my-1">
                         <span className="mr-4 mt-3 text-gray-500"><TbToolsKitchen /></span>
@@ -68,12 +64,10 @@ const Home = () => {
                 </div>
             </div>
             <div className="m-12">
-                <p>This is a sample of a modal created using react portal</p>
-                <Button type='button' text="click to see modal" onClick={handleModal} />
-                {showModal && <Modal onClick={() => setShowModal(false)} />}
+                
             </div>
         </div>
     )
 }
 
-export default Home;
+export default Navbar;
