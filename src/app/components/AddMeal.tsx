@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 import Image from 'next/image'
-import { Input, Button } from './UI';
+import { Input, Button, TextArea } from './UI';
 import { useStore } from '../context/stateContext';
 import { User, Context } from '../context/Types';
 import Link from 'next/link';
@@ -9,16 +9,14 @@ import Link from 'next/link';
 
 const AddMeal = () => {
 
-    const { user, handleChange, handleLogin, isAdmin, userInfo }: Context = useStore();
-    const { email, password } = user;
-    const newInfo = userInfo
-    console.log(newInfo)
-    console.log(isAdmin)
+    const { handleChange, handleLogin, meal }: Context = useStore();
+    const { storeId, storeName, mealName, price, description, category, options, optionsPrice, imageUrls } = meal;
+
     return (
-        <>
+        <div className='flex flex-col w-full h-full p-6 mt-12'>
             <form className='flex flex-col w-full h-full'>
-                <div>
-                    <p>storeName</p>
+                <div className='flex flex-col w-full items-center'>
+                    <p>{storeName}</p>
                     <Image
                         src='/dummy-profile.png'
                         width={100}
@@ -28,17 +26,20 @@ const AddMeal = () => {
                     />
                 </div>
                 <Input label="Store ID" type="text" value={storeId} id='storeId' onChange={handleChange} />
-                <Input label="Meal" type="text" value={meal} id='meal' onChange={handleChange} />
-                <Input label="Price" type="text" value={price} id='price' onChange={handleChange} />
-                <div>
-                <Input label="Sides/Topping" type="text" value={options} id='options' onChange={handleChange} />
-                <Input label="Price" type="text" value={price} id='price' onChange={handleChange} />
+                <Input label="Meal" type="text" value={mealName} id='mealName' onChange={handleChange} />
+                <Input label="Category" type="text" value={category} id='category' onChange={handleChange} />
+                <Input label="Price" type="number" value={price} id='price' onChange={handleChange} />
+
+                <div className='flex flex-row space-x-4  w-full h-full'>
+                    <Input label="Sides/Topping" type="text" value={options} id='options' onChange={handleChange} />
+                    <Input label="Price" type="text" value={optionsPrice} id='optionsPrice' onChange={handleChange} />
                 </div>
-                <Input label="Image" type="image" value={image} id='image' onChange={handleChange} />
-                <p className="text-sky-600 text-sm pt-1">Forgot password?</p>
+
+                <TextArea label="Description" placeHolder="Tell us about this meal..." value={description} id='description' onChange={handleChange} />
+                <Input label="Image" type="image" value={imageUrls} id='image' onChange={handleChange} />
                 <Button type="submit" text="Login" onClick={handleLogin} />
             </form>
-        </>
+        </div>
     )
 }
 

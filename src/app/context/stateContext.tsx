@@ -23,6 +23,17 @@ const info = {
     email: '',
     id: '',
 }
+const mealData = {
+    storeId: '',
+    storeName: '',
+    mealName: '',
+    price: 0,
+    description: '',
+    category: '',
+    options: '',
+    optionsPrice: 0,
+    imageUrls: [],
+}
 
 export default function StateProvider({ children }: any) {
     const [user, setUser] = useState(userData)
@@ -30,6 +41,8 @@ export default function StateProvider({ children }: any) {
     const [login, setLogin] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const [userInfo, setUserInfo] = useState(info);
+    const [allStores, setAllStores] = useState([]);
+    const [meal, setMeal] = useState(mealData);
     const [showModal, setShowModal] = useState(false);
     const [token, setToken] = useState('');
     const [url, setUrl] = useState('https://nodejs-food-valid-production.up.railway.app')
@@ -55,7 +68,6 @@ export default function StateProvider({ children }: any) {
                 body: JSON.stringify(body),
             })
 
-
             if (response.status === 400) {
                 if (error.current) {
                     (error.current as HTMLDivElement).focus()
@@ -72,6 +84,19 @@ export default function StateProvider({ children }: any) {
         } catch (error) { }
     }
 
+    const getters = async (endPoint: string, method: string, token: string) => {
+        try {
+            const response = await fetch((url + endPoint), {
+                method: method,
+                headers: {
+                    'Authorization' : "Bearer " + token
+                }
+            })
+            const data = await response.json();
+            return data
+        } catch (error) { }
+    }
+
     const handleLogin: ReactEventHandler = async (e) => {
         e.preventDefault()
         postAuth("/auth/admin/login", 'POST', user).then((res) => {
@@ -79,7 +104,7 @@ export default function StateProvider({ children }: any) {
                 isAdmin: res.isAdmin,
                 token: res.accessToken
             }
-           const userInfo ={
+            const userInfo = {
                 name: res.username,
                 email: res.email,
                 id: res.userId,
@@ -98,11 +123,9 @@ export default function StateProvider({ children }: any) {
     }
 
     const getStores = async () => {
-        const response = await fetch(`${url}/auth/stores`, {
-            method: 'GET'
+        getters("/auth/stores", 'GET', token).then((res) => {
+            setAllStores(res)
         })
-        const data = await response.json();
-        console.log(data)
     }
 
     useEffect(() => {
@@ -119,6 +142,7 @@ export default function StateProvider({ children }: any) {
 
     useEffect(() => {
         getStores()
+
     }, [])
 
     const value = {
@@ -128,9 +152,11 @@ export default function StateProvider({ children }: any) {
         err,
         error,
         isAdmin,
+        meal,
+        allStores,
         userInfo,
         setLogin,
-        showModal, 
+        showModal,
         setShowModal,
         handleLogin,
         handleSignUp,

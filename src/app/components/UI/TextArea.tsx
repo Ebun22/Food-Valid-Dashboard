@@ -9,7 +9,7 @@ interface props {
     onChange: ReactEventHandler,
 }
 
-const Input = ({ label, value, placeHolder, id, onChange}: props) => {
+const TextArea = ({ label, value, placeHolder, id, onChange}: props) => {
     return (
         <>
             <div className="mt-6">
@@ -26,4 +26,4 @@ const Input = ({ label, value, placeHolder, id, onChange}: props) => {
     )
 }
 
-export default Input;
+export default TextArea;

@@ -4,7 +4,7 @@ import React, {ReactEventHandler, useState} from 'react';
 interface props {
     label: string,
     type: string,
-    value:string,
+    value:string | number | string[],
     id: string,
     onChange: ReactEventHandler,
 }

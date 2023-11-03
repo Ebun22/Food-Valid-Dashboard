@@ -10,13 +10,26 @@ export interface UserInfo {
     email: string,
     id: string,
 }
+export interface MealData {
+    storeId: string,
+    storeName: string,
+    mealName: string,
+    price: number,
+    description: string,
+    category: string,
+    options: string,
+    optionsPrice: number,
+    imageUrls: Array<string>,
+}
 
 export interface Context{
     user: User,
     err: string,
     userInfo: UserInfo,
     isAdmin: boolean,
-    showModal: boolean, 
+    showModal: boolean,
+    meal: MealData,
+    allStores: Array<Object>, 
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
     error: React.MutableRefObject<HTMLDivElement | null>,
     login: boolean, 
