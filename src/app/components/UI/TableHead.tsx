@@ -2,21 +2,21 @@
 import React, { ReactEventHandler, useState } from 'react';
 
 interface props {
-    head: Array<string>,
+    head: Array<string | React.ReactNode>, 
     children: React.ReactNode,
 }
 
 const TableHead = ({ head, children }: props) => {
     return (
         <>
-            <div className="mt-6">
-                <table className="table-auto">
-                    <thead>
+            <div className="mt-6  w-full">
+                <table className="table-auto w-full ">
+                    <thead className=''>
                         <tr>
                             {
-                                head.map((head: string, index: number) => (
+                                head.map((head: string | React.ReactNode, index: number) => (
                                     <>
-                                        <td key={index}>{head}</td>                               
+                                        <td className="p-0 border-r border-rose-50" key={index}>{head}</td>                               
                                     </>
                                 ))
                             }

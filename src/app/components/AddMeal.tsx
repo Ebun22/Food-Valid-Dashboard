@@ -11,18 +11,19 @@ const AddMeal = () => {
 
     const { handleChange, handleLogin, meal }: Context = useStore();
     const { storeId, storeName, mealName, price, description, category, options, optionsPrice, imageUrls } = meal;
+    // console.log(imageUrls)
 
     return (
-        <div className='flex flex-col w-full h-full p-6 mt-12'>
+        <div className='flex flex-col w-full h-full p-6 ' onClick={(event) => event.stopPropagation()}>
             <form className='flex flex-col w-full h-full'>
                 <div className='flex flex-col w-full items-center'>
-                    <p>{storeName}</p>
+                    <p className='capitalize font-bold text-lg'>{storeName}</p>
                     <Image
-                        src='/dummy-profile.png'
+                        src={imageUrls.length !== 0 ? imageUrls[0] : '/dummy-profile.png'}
                         width={100}
                         height={100}
                         alt="profile picture"
-                        className="rounded-full"
+                        className="rounded-full w-40 h-40"
                     />
                 </div>
                 <Input label="Store ID" type="text" value={storeId} id='storeId' onChange={handleChange} />

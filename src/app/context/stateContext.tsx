@@ -89,7 +89,7 @@ export default function StateProvider({ children }: any) {
             const response = await fetch((url + endPoint), {
                 method: method,
                 headers: {
-                    'Authorization' : "Bearer " + token
+                    'Authorization': "Bearer " + token
                 }
             })
             const data = await response.json();
@@ -128,6 +128,19 @@ export default function StateProvider({ children }: any) {
         })
     }
 
+    const getStore = async (id: string) => {
+        console.log(id)
+        getters(`/auth/stores/${id}`, 'GET', token).then((res) => {
+            setMeal((prev) => ({
+                ...prev,
+                storeName: res.storeName,
+                storeId: res.storeId,
+                imageUrls: res.storeImages
+            }))
+            console.log(res)
+        })
+    }
+
     useEffect(() => {
         //To get access Token from local storage
         const store = localStorage.getItem("login")
@@ -142,7 +155,6 @@ export default function StateProvider({ children }: any) {
 
     useEffect(() => {
         getStores()
-
     }, [])
 
     const value = {
@@ -157,6 +169,7 @@ export default function StateProvider({ children }: any) {
         userInfo,
         setLogin,
         showModal,
+        getStore,
         setShowModal,
         handleLogin,
         handleSignUp,

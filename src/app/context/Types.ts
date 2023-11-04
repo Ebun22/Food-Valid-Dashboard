@@ -29,6 +29,7 @@ export interface Context{
     isAdmin: boolean,
     showModal: boolean,
     meal: MealData,
+    getStore: (id:string) => void,
     allStores: Array<Object>, 
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
     error: React.MutableRefObject<HTMLDivElement | null>,

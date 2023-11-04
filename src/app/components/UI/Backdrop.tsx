@@ -14,7 +14,7 @@ const Backdrop = ({ children, onClick }: props) => {
         <>
             {
             modalElement && ReactDOM.createPortal(
-                <div className="flex flex-col w-full h-full absolute z-10 inset-0 bg-opacity-50 bg-black justify-center align-center" onClick={onClick}>
+                <div className="flex flex-col w-full py-12 absolute z-10 top-0 left-0 right-0 bg-opacity-50 bg-black justify-center align-center" onClick={onClick}>
                     {children}
                 </div>,
                 modalElement

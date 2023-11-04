@@ -1,43 +1,63 @@
 "use client"
-import React from 'react';
+import React, {useRef} from 'react';
 import { Button, Modal, TableBody, TableHead } from '../../components/UI';
 import { useStore } from '../../context/stateContext';
 import { Context } from '../../context/Types';
 import { AddMeal, Navbar } from '../../components';
 
+
+
 const Home = () => {
 
-    const { allStores, showModal, handleChange, setShowModal }: Context = useStore();
+    const { allStores, showModal,getStore, handleChange, setShowModal }: Context = useStore();
     // const { storeName, storeId, categories, isStoreOpen, deliveryFee, rating, storeImages } = allStores;
     console.log(allStores)
-    const handleModal = () => {
+    const handleModal = (e: any) => {
         setShowModal(true)
+        console.log(e.target.id)
+        getStore(e.target.id)
     }
 
     return (
-        <div className="flex flex-col h-screen min-h-screen">
+        <div className="flex flex-col h-full">
             <div className="flex flex-row w-full">
                 <Navbar />
-                <div className="m-12">
-                    <p>This is a sample of a modal created using react portal</p>
+                <div className="m-12 w-full h-full">
                     <div>
-                        <TableHead head={['Restaurant', 'contact', 'rating', 'Delivery Fee', 'Status', 'Add Meal']}>
+                        <TableHead
+                            head={[
+                                <p className='rounded-s-lg  overflow-hidden w-full p-4 bg-rose-50 '>Restaurant</p>, 
+                                <p className='w-full p-4 bg-rose-50'>Contact Details</p>,
+                                <p className='w-full p-4 bg-rose-50'>Average Rating</p>,
+                                <p className='w-full p-4 bg-rose-50'>Delivery Fee</p>,
+                                <p className='w-full p-4 bg-rose-50'>Status</p>, 
+                                <p className='rounded-e-lg  w-full p-4 bg-rose-50'>Add Meal</p>]}
+                        >
                             {allStores.map((store: any) => {
                                 return (
                                     <TableBody
-                                        details={[store.storeName, store.phoneNumber, store.rating, store.deliveryFee, store.isStoreOpen]}
+                                        details={[
+                                            <p>{store.storeName}</p>, 
+                                            store.phoneNumber, 
+                                            <p>{store.rating}</p>, 
+                                            <p>{store.deliveryFee}</p>,
+                                             store.isStoreOpen == true ? "Open" : "Closed",
+                                             <p id={store.storeId} onClick={(e) => handleModal(e)}>+</p>
+                                            ]}
                                     />
                                 )
                             }
                             )}
                         </TableHead>
                     </div>
-                    <Button type='button' text="click to see modal" onClick={handleModal} />
+                    <div className="flex flex-col h-full">
+
                     {showModal &&
-                        <Modal onClick={() => setShowModal(false)}>
+                        <Modal onClick={() => setShowModal(false)} >
                             <AddMeal />
                         </Modal>
                     }
+                    </div>
                 </div>
             </div>
         </div>

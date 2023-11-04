@@ -19,7 +19,7 @@ const Navbar = () => {
 
     return (
         <>
-            <div className="w-1/5 h-screen bg-gray-950 flex flex-col items-center text-white">
+            <div className="w-1/5 bg-gray-950 flex flex-col items-center text-white">
                 <h1 className="font-extrabold text-xl my-4">FoodValid</h1>
                 <div className="flex flex-col items-center text-center">
                     <Image
