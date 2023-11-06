@@ -10,23 +10,38 @@ export interface UserInfo {
     email: string,
     id: string,
 }
+export interface Options {
+    option: string,
+    optionPrice: number,
+}
 export interface MealData {
     storeId: string,
-    storeName: string,
     mealName: string,
     price: number,
     description: string,
     category: string,
-    options: string,
-    optionsPrice: number,
     imageUrls: Array<string>,
 }
+
+interface StoreData {
+    name: '',
+    id:'',
+    images: ''   
+}   
 
 export interface Context{
     user: User,
     err: string,
     userInfo: UserInfo,
     isAdmin: boolean,
+    store:{
+        name: string;
+        id: string;
+        images: string;
+    },
+    setMeal: React.Dispatch<React.SetStateAction<MealData>>
+    options: Options[],
+    setOptions: React.Dispatch<React.SetStateAction<Options[]>>
     showModal: boolean,
     meal: MealData,
     getStore: (id:string) => void,
@@ -36,6 +51,7 @@ export interface Context{
     login: boolean, 
     setLogin:React.Dispatch<React.SetStateAction<boolean>>,
     handleChange:React.ChangeEventHandler<HTMLInputElement>,
+    handleAddMeal: () => void,
     handleSignUp: React.ReactEventHandler,
     handleLogin: React.ReactEventHandler,
 }

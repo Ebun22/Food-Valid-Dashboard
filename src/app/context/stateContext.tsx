@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect, createContext, useContext, useRef, ReactEventHandler, useCallback } from 'react';
-import { Context, User } from "./Types";
+import { Context, MealData, User, Options} from "./Types";
 import { useRouter, useSearchParams, usePathname } from "next/navigation"
 
 
@@ -23,18 +23,23 @@ const info = {
     email: '',
     id: '',
 }
+export const optionData = {
+    option: '',
+    optionPrice: 0,
+}
 const mealData = {
     storeId: '',
-    storeName: '',
     mealName: '',
     price: 0,
     description: '',
     category: '',
-    options: '',
-    optionsPrice: 0,
     imageUrls: [],
 }
-
+const storeData = {
+    name: '',
+    id: '',
+    images: ''   
+}  
 export default function StateProvider({ children }: any) {
     const [user, setUser] = useState(userData)
     const [err, setErr] = useState("")
@@ -42,7 +47,9 @@ export default function StateProvider({ children }: any) {
     const [isAdmin, setIsAdmin] = useState(false);
     const [userInfo, setUserInfo] = useState(info);
     const [allStores, setAllStores] = useState([]);
-    const [meal, setMeal] = useState(mealData);
+    const [store, setStore] = useState(storeData);
+    const [options, setOptions] = useState<Options[]>([optionData]);
+    const [meal, setMeal] = useState<MealData>(mealData);
     const [showModal, setShowModal] = useState(false);
     const [token, setToken] = useState('');
     const [url, setUrl] = useState('https://nodejs-food-valid-production.up.railway.app')
@@ -129,16 +136,17 @@ export default function StateProvider({ children }: any) {
     }
 
     const getStore = async (id: string) => {
-        console.log(id)
         getters(`/auth/stores/${id}`, 'GET', token).then((res) => {
-            setMeal((prev) => ({
-                ...prev,
-                storeName: res.storeName,
-                storeId: res.storeId,
-                imageUrls: res.storeImages
+            setStore(() => ({
+                name: res.storeName,
+                id: res.storeId,
+                images: res.storeImages
             }))
-            console.log(res)
         })
+    }
+
+    const handleAddMeal = () => {
+
     }
 
     useEffect(() => {
@@ -161,6 +169,7 @@ export default function StateProvider({ children }: any) {
         user,
         handleChange,
         login,
+        store,
         err,
         error,
         isAdmin,
@@ -170,9 +179,13 @@ export default function StateProvider({ children }: any) {
         setLogin,
         showModal,
         getStore,
+        options, 
+        setOptions,
+        setMeal,
         setShowModal,
         handleLogin,
         handleSignUp,
+        handleAddMeal,
     }
 
 

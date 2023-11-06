@@ -14,7 +14,6 @@ const Home = () => {
     console.log(allStores)
     const handleModal = (e: any) => {
         setShowModal(true)
-        console.log(e.target.id)
         getStore(e.target.id)
     }
 
