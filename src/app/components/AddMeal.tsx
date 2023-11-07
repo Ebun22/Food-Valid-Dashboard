@@ -84,7 +84,7 @@ const AddMeal = () => {
 
                 <TextArea label="Description" placeHolder="Tell us about this meal..." value={description} id='description' onChange={handleChange} />
                 <Input label="Image" type="file" value={imageUrls} id='imageUrls' name="fileName" onChange={handleChange} />
-                <Button type="submit" text="Add meal" onClick={handleAddMeal} />
+                <Button type="button" text="Add meal" onClick={handleAddMeal} />
             </form>
         </div>
     )

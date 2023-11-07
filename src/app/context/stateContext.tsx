@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect, createContext, useContext, useRef, ReactEventHandler, useCallback } from 'react';
-import { Context, MealData, User, Options} from "./Types";
+import { Context, MealData, User, Options } from "./Types";
 import { useRouter, useSearchParams, usePathname } from "next/navigation"
 
 
@@ -27,7 +27,7 @@ export const optionData = {
     option: '',
     optionPrice: 0,
 }
-const mealData = {
+const mealData: MealData = {
     storeId: '',
     mealName: '',
     price: 0,
@@ -38,8 +38,8 @@ const mealData = {
 const storeData = {
     name: '',
     id: '',
-    images: ''   
-}  
+    images: ''
+}
 export default function StateProvider({ children }: any) {
     const [user, setUser] = useState(userData)
     const [err, setErr] = useState("")
@@ -104,6 +104,19 @@ export default function StateProvider({ children }: any) {
         } catch (error) { }
     }
 
+    const posters = async (endPoint: string, method: string, token: string, body: FormData) => {
+        try{
+            const response = await fetch(`${url + endPoint}`, {
+                method: method,
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                body: body,
+            })
+
+        } catch (error) { }
+    }
+
     const handleLogin: ReactEventHandler = async (e) => {
         e.preventDefault()
         postAuth("/auth/admin/login", 'POST', user).then((res) => {
@@ -145,8 +158,22 @@ export default function StateProvider({ children }: any) {
         })
     }
 
-    const handleAddMeal = () => {
+    const handleAddMeal = async () => {
+        const body = new FormData();
 
+        body.append("storeId", store.id);
+        body.append("mealName", meal.mealName);
+        body.append("price", meal.price.toString());
+        body.append("description", meal.description);
+        body.append("category", meal.category);
+        body.append("imageUrls", JSON.stringify(meal.imageUrls));
+        body.append("options", JSON.stringify(options));
+
+    
+        posters("/meals/add", "POST", token, body).then((res) => {
+            console.log(res)
+        })
+   
     }
 
     useEffect(() => {
@@ -179,7 +206,7 @@ export default function StateProvider({ children }: any) {
         setLogin,
         showModal,
         getStore,
-        options, 
+        options,
         setOptions,
         setMeal,
         setShowModal,
