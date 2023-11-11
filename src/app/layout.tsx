@@ -19,10 +19,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <StateProvider>
           {children}
-          <div id="modal"></div>
+      
         </StateProvider>
-
       </body>
+      <div id="modal"></div>
     </html>
   )
 }

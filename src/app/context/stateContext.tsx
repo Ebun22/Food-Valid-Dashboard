@@ -1,7 +1,8 @@
 "use client"
 import React, { useState, useEffect, createContext, useContext, useRef, ReactEventHandler, useCallback } from 'react';
 import { Context, MealData, User, Options } from "./Types";
-import { useRouter, useSearchParams, usePathname } from "next/navigation"
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { toast } from 'react-toastify';
 
 
 export const StateConsumer = createContext<Context | null>(null)
@@ -43,10 +44,14 @@ const storeData = {
 export default function StateProvider({ children }: any) {
     const [user, setUser] = useState(userData)
     const [err, setErr] = useState("")
+    const [response, setResponse] = useState('')
     const [login, setLogin] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const [userInfo, setUserInfo] = useState(info);
     const [allStores, setAllStores] = useState([]);
+    const [numOfRes, setNumOfRes] = useState(0);
+    const [numOfCust, setNumOfCust] = useState(0);
+    const [numOfMeals, setNumOfMeal] = useState(0);
     const [store, setStore] = useState(storeData);
     const [options, setOptions] = useState<Options[]>([optionData]);
     const [meal, setMeal] = useState<MealData>(mealData);
@@ -105,7 +110,7 @@ export default function StateProvider({ children }: any) {
     }
 
     const posters = async (endPoint: string, method: string, token: string, body: FormData) => {
-        try{
+        try {
             const response = await fetch(`${url + endPoint}`, {
                 method: method,
                 headers: {
@@ -113,7 +118,11 @@ export default function StateProvider({ children }: any) {
                 },
                 body: body,
             })
-
+            const data = await response.json();
+            setResponse(JSON.stringify(response.status))
+            if (response.status === 200) {
+                return data
+            }
         } catch (error) { }
     }
 
@@ -145,6 +154,7 @@ export default function StateProvider({ children }: any) {
     const getStores = async () => {
         getters("/auth/stores", 'GET', token).then((res) => {
             setAllStores(res)
+            console.log("This is the restaurants: ", res.length)
         })
     }
 
@@ -169,11 +179,16 @@ export default function StateProvider({ children }: any) {
         body.append("imageUrls", JSON.stringify(meal.imageUrls));
         body.append("options", JSON.stringify(options));
 
-    
+        // console.log(posters("/meals/add", "POST", token, body))
+        if (response === "200") {
+            toast.success("Meal has been successfully uplaoded!!");
+        } else if (response === "403") {
+            toast.error("You area not authorized to perform this action");
+        }
         posters("/meals/add", "POST", token, body).then((res) => {
             console.log(res)
         })
-   
+
     }
 
     useEffect(() => {

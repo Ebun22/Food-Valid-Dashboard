@@ -45,7 +45,7 @@ const AddMeal = () => {
     }
 
     return (
-        <div className='flex flex-col w-full h-full p-6 ' onClick={(event) => event.stopPropagation()}>
+        <div className='flex flex-col w-full h-full p-6 pt-2 ' onClick={(event) => event.stopPropagation()}>
             <form className='flex flex-col w-full h-full'>
                 <div className='flex flex-col w-full items-center'>
                     <p className='capitalize font-bold text-xl mb-2'>{name}</p>
@@ -75,12 +75,12 @@ const AddMeal = () => {
                             }
                         </div>
                         {options.length - 1 === index &&
-                            <Button type="button" text="Add Sides" onClick={handleAddSide} />
+                            <Button type="button" text="Add Sides" style='justify-end bg-indigo-200 text-black' onClick={handleAddSide} />
                         }
 
                     </div>
                 ))}
-                <Notice color='slate' text='Leave blank if this meal has no sides' />
+                {/* <Notice color='slate' text='Leave blank if this meal has no sides' /> */}
 
                 <TextArea label="Description" placeHolder="Tell us about this meal..." value={description} id='description' onChange={handleChange} />
                 <Input label="Image" type="file" value={imageUrls} id='imageUrls' name="fileName" onChange={handleChange} />

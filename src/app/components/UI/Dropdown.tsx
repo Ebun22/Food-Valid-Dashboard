@@ -19,7 +19,7 @@ const Dropdown = ({ trigger, menu }: props) => {
 
     return (
         <>
-            <div className="my-2 mt-1.5 font-medium py-2 text-gray-500">
+            <div className="my-2 mt-1.5 font-medium py-2 text-neutral-500">
                 <div className='flex flex-row w-full'>
                     <button className="" >
                         <Link href='/dashboard/order'>
